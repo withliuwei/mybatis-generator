@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.liuw.myproject.mapper.SysUserMapper">
+    <resultMap id="BaseResultMap" type="vip.liuw.myproject.model.SysUser">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="department_id" jdbcType="VARCHAR" property="departmentId"/>
+    </resultMap>
+
+    <resultMap id="ResultMapWithRole" type="vip.liuw.myproject.model.SysUser" extends="BaseResultMap">
+        <association property="sysDepartment" columnPrefix="sd_"
+                     resultMap="vip.liuw.myproject.mapper.SysDepartmentMapper.BaseResultMap"/>
+        <collection property="sysRoles" columnPrefix="sr_"
+                    resultMap="vip.liuw.myproject.mapper.SysRoleMapper.BaseResultMap"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        su.`id` as `su_id`, su.`name` as `su_name`, su.`department_id` as `su_department_id`
+    </sql>
+
+    <select id="getSysUserDetail" resultMap="ResultMapWithRole">
+        select su.*,
+        <include refid="vip.liuw.myproject.mapper.SysDepartmentMapper.Base_Column_List"/>,
+        <include refid="vip.liuw.myproject.mapper.SysRoleMapper.Base_Column_List"/>
+        from sys_user su
+        , sys_department sd
+        ,sys_user_role sur, sys_role sr
+        where su.id = #{id}
+        sur.user_id = su.id
+        and sr.id = sur.role_id
+        and sd.id = su.department_id
+    </select>
+</mapper>

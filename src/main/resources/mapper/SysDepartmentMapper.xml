@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.liuw.myproject.mapper.SysDepartmentMapper">
+    <resultMap id="BaseResultMap" type="vip.liuw.myproject.model.SysDepartment">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        sd.`id` as `sd_id`, sd.`name` as `sd_name`
+    </sql>
+</mapper>
